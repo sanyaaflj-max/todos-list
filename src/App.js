@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // 1. Added useEffect here
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./MyComponents/Header";
@@ -10,12 +10,20 @@ import { About } from "./MyComponents/About";
 import "./App.css";
 
 function App() {
-  // 1. Simple State management for Todos
-  const [todos, setTodos] = useState([]);
+  // 2. USESTATE with initializer function to LOAD from LocalStorage
+  const [todos, setTodos] = useState(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
-  // 2. Add Todo function using basic state update
+  // 3. USEEFFECT to SAVE to LocalStorage whenever 'todos' array changes
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   const addTodo = (title, desc, priority, dueDate) => {
     const newTodo = {
       id: Date.now(),
@@ -28,29 +36,18 @@ function App() {
     setTodos([...todos, newTodo]);
   };
 
-  // 3. Delete Todo function
   const deleteTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // 4. Toggle Todo status
   const toggleTodo = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, done: !todo.done } : todo
-    );
-    setTodos(updatedTodos);
+    setTodos(todos.map((todo) => todo.id === id ? { ...todo, done: !todo.done } : todo));
   };
 
-  // 5. Edit Todo function
   const editTodo = (id, title, desc) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, title, desc } : todo
-    );
-    setTodos(updatedTodos);
+    setTodos(todos.map((todo) => todo.id === id ? { ...todo, title, desc } : todo));
   };
 
-  // 6. Simple Search filtering (No useMemo)
   const filteredTodos = todos.filter((todo) =>
     todo.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -58,34 +55,13 @@ function App() {
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
       <Router>
-        <Header
-          title="My Todos"
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-        />
-
+        <Header title="My Todos" searchQuery={searchQuery} onSearchChange={setSearchQuery} darkMode={darkMode} setDarkMode={setDarkMode} />
         <div className="main-content">
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <AddTodo addTodo={addTodo} />
-                  <Todos
-                    todos={filteredTodos}
-                    onDelete={deleteTodo}
-                    onToggle={toggleTodo}
-                    onEdit={editTodo}
-                  />
-                </>
-              }
-            />
+            <Route path="/" element={<><AddTodo addTodo={addTodo} /><Todos todos={filteredTodos} onDelete={deleteTodo} onToggle={toggleTodo} onEdit={editTodo} /></>} />
             <Route path="/about" element={<About />} />
           </Routes>
         </div>
-
         <Footer />
       </Router>
     </div>
