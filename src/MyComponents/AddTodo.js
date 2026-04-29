@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect, useContext, useId } from "react";
 import { TodoContext } from "../context/TodoContext"; 
 
 export const AddTodo = () => {
@@ -9,11 +9,13 @@ export const AddTodo = () => {
   const [dueDate, setDueDate] = useState("");
   const inputRef = useRef(null);
 
+  // 1. Generate a unique ID prefix for this form instance
+  const id = useId();
+
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
   }, []);
 
-  // This safety check prevents the "Cannot destructure property 'addTodo' of undefined" error
   if (!context) return null;
   const { addTodo } = context;
 
@@ -34,40 +36,57 @@ export const AddTodo = () => {
       <form onSubmit={submit} className="todo-form">
         <h3 className="text-center" style={{color: "#ff4d8d"}}>Create New Task</h3>
         
-        <input 
-          ref={inputRef} 
-          type="text" 
-          className="form-control mb-2" 
-          placeholder="Task Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-        />
+        {/* 2. Added labels linked to inputs via unique IDs */}
+        <div className="mb-2">
+          <label htmlFor={id + '-title'} className="visually-hidden">Task Title</label>
+          <input 
+            id={id + '-title'}
+            ref={inputRef} 
+            type="text" 
+            className="form-control" 
+            placeholder="Task Title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+          />
+        </div>
         
-        <input 
-          type="text" 
-          className="form-control mb-2" 
-          placeholder="Task Description" 
-          value={desc} 
-          onChange={(e) => setDesc(e.target.value)} 
-        />
+        <div className="mb-2">
+          <label htmlFor={id + '-desc'} className="visually-hidden">Task Description</label>
+          <input 
+            id={id + '-desc'}
+            type="text" 
+            className="form-control" 
+            placeholder="Task Description" 
+            value={desc} 
+            onChange={(e) => setDesc(e.target.value)} 
+          />
+        </div>
         
         <div className="d-flex gap-2 mb-2">
-          <select 
-            className="form-select" 
-            value={priority} 
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <option value="Low">Low Priority</option>
-            <option value="Medium">Medium Priority</option>
-            <option value="High">High Priority</option>
-          </select>
+          <div className="w-50">
+            <label htmlFor={id + '-priority'} className="visually-hidden">Priority</label>
+            <select 
+              id={id + '-priority'}
+              className="form-select" 
+              value={priority} 
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <option value="Low">Low Priority</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="High">High Priority</option>
+            </select>
+          </div>
           
-          <input 
-            type="date" 
-            className="form-control" 
-            value={dueDate} 
-            onChange={(e) => setDueDate(e.target.value)} 
-          />
+          <div className="w-50">
+            <label htmlFor={id + '-date'} className="visually-hidden">Due Date</label>
+            <input 
+              id={id + '-date'}
+              type="date" 
+              className="form-control" 
+              value={dueDate} 
+              onChange={(e) => setDueDate(e.target.value)} 
+            />
+          </div>
         </div>
         
         <button type="submit" className="add-btn w-100">+ Add Task</button>
