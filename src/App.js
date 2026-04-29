@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useMemo,useCallback} from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./MyComponents/Header";
@@ -6,69 +6,58 @@ import { Todos } from "./MyComponents/Todos";
 import { AddTodo } from "./MyComponents/AddTodo";
 import { Footer } from "./MyComponents/Footer";
 import { About } from "./MyComponents/About";
+
 import "./App.css";
 
 function App() {
-  // 💾 Load from localStorage
-  const [todos, setTodos] = useState(() => {
-    const saved = localStorage.getItem("todos");
-    return saved ? JSON.parse(saved) : [];
-  });
-
+  // 1. Simple State management for Todos
+  const [todos, setTodos] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
-  // 💾 Save to localStorage
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  // ➕ Add Todo
-  const addTodo = useCallback((title, desc) => {
-  const newTodo = {
-    id: Date.now(),
-    title,
-    desc,
-    done: false,
+  // 2. Add Todo function using basic state update
+  const addTodo = (title, desc, priority, dueDate) => {
+    const newTodo = {
+      id: Date.now(),
+      title,
+      desc,
+      priority: priority || "Low",
+      dueDate: dueDate || "",
+      done: false,
+    };
+    setTodos([...todos, newTodo]);
   };
-  setTodos(prev => [...prev, newTodo]);
-}, []);
 
-  // ❌ Delete
-  const deleteTodo = useCallback((todo) => {
-  setTodos(prev => prev.filter((e) => e !== todo));
-}, []);
-  
-  // ✅ Toggle
-  const toggleTodo = useCallback((id) => {
-  setTodos(prev =>
-    prev.map((todo) =>
+  // 3. Delete Todo function
+  const deleteTodo = (id) => {
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  };
+
+  // 4. Toggle Todo status
+  const toggleTodo = (id) => {
+    const updatedTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, done: !todo.done } : todo
-    )
-  );
-}, []);
-
-  // ✏️ Edit
-  const editTodo = (id, title, desc) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, title, desc } : todo
-      )
     );
+    setTodos(updatedTodos);
   };
 
-  // 🔍 Search
-  const filteredTodos = useMemo(() => {
-  return todos.filter((todo) =>
+  // 5. Edit Todo function
+  const editTodo = (id, title, desc) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, title, desc } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  // 6. Simple Search filtering (No useMemo)
+  const filteredTodos = todos.filter((todo) =>
     todo.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-}, [todos, searchQuery]);
 
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
       <Router>
-
-        {/* HEADER */}
         <Header
           title="My Todos"
           searchQuery={searchQuery}
@@ -77,7 +66,6 @@ function App() {
           setDarkMode={setDarkMode}
         />
 
-        {/* MAIN CONTENT */}
         <div className="main-content">
           <Routes>
             <Route
@@ -98,9 +86,7 @@ function App() {
           </Routes>
         </div>
 
-        {/* FOOTER */}
         <Footer />
-
       </Router>
     </div>
   );
