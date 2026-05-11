@@ -1,71 +1,124 @@
-📝 TaskMate: Advanced React Todo Application
-A feature-rich Todo application built with React and Bootstrap, demonstrating proficiency in React Hooks, LocalStorage persistence, and performance optimization.
+# 📝 TaskMate - Advanced React Todo Application
 
-🚀 Branch Structure
-This project is organized into specific branches to demonstrate the evolution of React development:
+TaskMate is a modern and responsive Todo Management application built using React.js.  
+The project demonstrates React Hooks, Context API, React Router, performance optimization, and responsive UI design.
 
-use-state-branch: Core functionality focusing on state management for adding and deleting todos.
+---
 
-use-effect-branch: Implementation of data persistence using localStorage to ensure tasks remain after page refresh.
+## 🔗 Live Demo
 
-performance-hooks-branch: Optimization using useMemo for efficient filtering and useCallback to prevent unnecessary component re-renders.
+https://todolist-101712.netlify.app/
 
-✨ Key Features
-Dynamic CRUD: Create, Read, Update, and Delete tasks seamlessly.
+---
 
-Search & Filter: Real-time searching with memoized filtering logic for speed.
+## 🚀 Features
 
-Persistence: Data automatically syncs to the browser's LocalStorage.
+- ✅ Add, Edit & Delete Tasks
+- ✅ Search & Filter Todos
+- ✅ Dark Mode Toggle
+- ✅ API Data Fetching
+- ✅ React Router Navigation
+- ✅ Lazy Loading & Suspense
+- ✅ Responsive Design
+- ✅ Context API State Management
+- ✅ Optimized Rendering using useMemo & useCallback
 
-Dark Mode: Integrated dark/light theme toggle for a better user experience.
+---
 
-Responsive Design: Fully responsive layout built with Bootstrap 5.
+## 🛠️ Tech Stack
 
-🛠️ Technical Stack
-Frontend: React.js (Hooks, Functional Components)
+### Frontend
+- React.js
+- JavaScript
+- Bootstrap 5
+- Custom CSS
 
-Routing: React Router DOM
+### Routing
+- React Router DOM
 
-Styling: Bootstrap 5 & Custom CSS
+### State Management
+- Context API
+- useReducer
 
-Version Control: Git & GitHub (Feature Branch Workflow)
+### Performance Optimization
+- useMemo
+- useCallback
 
-⚙️ Installation & Setup
+### Deployment & Version Control
+- Git
+- GitHub
+- Netlify
+
+---
+
+## 🌿 Branch Structure
+
+### use-state-branch
+Focused on state management for adding and deleting todos.
+
+### use-effect-branch
+Implemented LocalStorage persistence using useEffect.
+
+### performance-hooks-branch
+Optimized rendering and filtering using useMemo and useCallback.
+
+---
+
+## ⚙️ Installation & Setup
+
 Clone the repository:
 
-Bash
+```bash
 git clone https://github.com/sanyaaflj-max/todos-list.git
+```
+
 Install dependencies:
 
-Bash
+```bash
 npm install
-Start the development server:
+```
 
-Bash
+Start development server:
+
+```bash
 npm start
-🧠 Learning Highlights
-useState: Managed complex state for task objects and UI toggles.
+```
 
-useEffect: Handled side effects by synchronizing the state with the Browser API.
+---
 
-useMemo: Optimized the search functionality to only re-run when necessary.
+## 🧠 Learning Highlights
 
-useCallback: Maintained referential equality of functions to improve app performance.
+### useState
+Managed component state and UI interactions.
 
-Step 2: Update your file
-Open your README.md file in VS Code.
+### useEffect
+Handled side effects and API data fetching.
 
-Delete everything inside it.
+### useMemo
+Optimized search filtering performance.
 
-Paste the text you just copied.
+### useCallback
+Prevented unnecessary function re-creations.
 
-Save (Ctrl + S).
+### React Router
+Implemented multi-page navigation.
 
-Step 3: Send it to GitHub
-Run these commands in your terminal to make it live:
+### Context API
+Managed global state efficiently.
 
-Bash
-git checkout main
-git add README.md
-git commit -m "docs: finalize professional README"
-git push origin main                           is this good 
+---
+
+## 📸 Screenshots
+
+### Home Page
+<img width="959" height="423" alt="Screenshot 2026-05-11 151540" src="https://github.com/user-attachments/assets/55f4e03e-ef7a-4cca-be98-052a626773bc" />
+
+### About Page
+<img width="959" height="438" alt="Screenshot 2026-05-11 151614" src="https://github.com/user-attachments/assets/eb6dd0c6-56b4-4052-b51e-d7d03982eff0" />
+
+
+---
+
+## 👩‍💻 Developed By
+
+Sanya Aflaj
